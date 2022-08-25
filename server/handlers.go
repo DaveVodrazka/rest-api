@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"github.com/DaveVodrazka/rest-api/models"
-	"github.com/DaveVodrazka/rest-api/persistence"
 	"github.com/gorilla/mux"
 )
 
@@ -17,7 +16,7 @@ func (s *Server) GetBooks(w http.ResponseWriter, r *http.Request) {
 func (s *Server) GetBook(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
-	for _, item := range persistence.DB {
+	for _, item := range *s.DB {
 		if item.ID == params["id"] {
 			s.Respond(w, r, item, http.StatusOK)
 			return
@@ -36,7 +35,7 @@ func (s *Server) CreateBook(w http.ResponseWriter, r *http.Request) {
 	}
 
 	book.ID = strconv.Itoa(rand.Intn(1000000))
-	s.DB = append(s.DB, book)
+	*s.DB = append(*s.DB, book)
 	s.Respond(w, r, book, http.StatusOK)
 }
 

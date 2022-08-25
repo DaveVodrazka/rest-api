@@ -10,11 +10,11 @@ import (
 
 type Server struct {
 	router *mux.Router
-	DB     models.BooksDB
+	DB     *models.BooksDB
 }
 
 func NewServer(r *mux.Router, db models.BooksDB) *Server {
-	return &Server{router: r, DB: db}
+	return &Server{router: r, DB: &db}
 }
 
 func (s *Server) ListenAndServe() {
