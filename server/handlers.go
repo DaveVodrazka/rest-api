@@ -10,10 +10,12 @@ import (
 )
 
 func (s *Server) GetBooks(w http.ResponseWriter, r *http.Request) {
+	s.log.info("GetBooks called")
 	s.Respond(w, r, s.DB, http.StatusOK)
 }
 
 func (s *Server) GetBook(w http.ResponseWriter, r *http.Request) {
+	s.log.info("GetBook called")
 	params := mux.Vars(r)
 
 	for _, item := range *s.DB {
@@ -27,6 +29,7 @@ func (s *Server) GetBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) CreateBook(w http.ResponseWriter, r *http.Request) {
+	s.log.info("CreateBook called")
 	var book models.Book
 	err := s.Decode(r, &book)
 
@@ -40,6 +43,7 @@ func (s *Server) CreateBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) UpdateBook(w http.ResponseWriter, r *http.Request) {
+	s.log.info("UpdateBook called")
 	params := mux.Vars(r)
 	var book models.Book
 	err := s.Decode(r, &book)
@@ -59,6 +63,7 @@ func (s *Server) UpdateBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) DeleteBook(w http.ResponseWriter, r *http.Request) {
+	s.log.info("DeleteBook called")
 	params := mux.Vars(r)
 
 	for i, item := range *s.DB {

@@ -11,13 +11,15 @@ import (
 type Server struct {
 	router *mux.Router
 	DB     *models.BooksDB
+	log    *CustomLogger
 }
 
 func NewServer(r *mux.Router, db models.BooksDB) *Server {
-	return &Server{router: r, DB: &db}
+	return &Server{router: r, DB: &db, log: &SimpleLogger}
 }
 
 func (s *Server) ListenAndServe() {
+	s.log.info("Starting the server")
 	http.ListenAndServe(":8000", s.router)
 }
 
