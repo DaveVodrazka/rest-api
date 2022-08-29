@@ -40,9 +40,33 @@ func (s *Server) CreateBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) UpdateBook(w http.ResponseWriter, r *http.Request) {
-	s.Respond(w, r, models.Book{}, http.StatusNoContent)
+	params := mux.Vars(r)
+	var book models.Book
+	err := s.Decode(r, &book)
+
+	if err != nil {
+		s.Respond(w, r, models.Book{}, http.StatusBadRequest)
+	}
+
+	for i, item := range *s.DB {
+		if item.ID == params["id"] {
+			(*s.DB)[i] = book
+			s.Respond(w, r, s.DB, http.StatusOK)
+			return
+		}
+	}
+	s.Respond(w, r, models.BooksDB{}, http.StatusBadRequest)
 }
 
 func (s *Server) DeleteBook(w http.ResponseWriter, r *http.Request) {
-	s.Respond(w, r, models.Book{}, http.StatusNoContent)
+	params := mux.Vars(r)
+
+	for i, item := range *s.DB {
+		if item.ID == params["id"] {
+			*s.DB = append((*s.DB)[:i], (*s.DB)[i+1:]...)
+			s.Respond(w, r, *s.DB, http.StatusOK)
+			return
+		}
+	}
+	s.Respond(w, r, models.BooksDB{}, http.StatusBadRequest)
 }

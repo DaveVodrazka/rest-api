@@ -1,0 +1,44 @@
+GET http://localhost:8000/api/books
+
+###
+
+GET http://localhost:8000/api/books/1
+
+###
+
+POST http://localhost:8000/api/books
+content-type: application/json
+
+{
+  "isbn": "1234",
+  "title": "My amazing life story",
+  "author": {
+    "id": "a1",
+    "firstname": "JK",
+    "lastname": "Rowling",
+    "born": 1965,
+    "nationality": "GB"
+  }
+}
+
+###
+
+DELETE http://localhost:8000/api/books/498081
+
+###
+
+PUT http://localhost:8000/api/books/1
+content-type: application/json
+
+{
+  "id": "1",
+  "isbn": "1234",
+  "title": "Harry Potter and Philosopher's stone",
+  "author": {
+    "id": "a1",
+    "firstname": "JK",
+    "lastname": "Rowling",
+    "born": 1965,
+    "nationality": "GB"
+  }
+}
